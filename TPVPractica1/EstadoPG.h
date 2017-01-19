@@ -7,11 +7,10 @@ class EstadoPG :
 	public EstadoJuego
 {
 public:
-	EstadoPG();
 	EstadoPG(JuegoPG* game);
 	virtual bool OnClick();
 	virtual void update();
-	
+	virtual void draw();
 	
 	virtual ~EstadoPG();
 protected:

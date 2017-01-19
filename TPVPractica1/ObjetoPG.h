@@ -13,9 +13,6 @@ public:
 	virtual bool onClick();
     ~ObjetoPG();
 	bool visible;
-private: 
-	
-	
 	
 
 protected:

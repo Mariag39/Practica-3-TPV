@@ -20,8 +20,12 @@ bool GlobosPG::onClick() {
 		  if (ObjetoPG::onClick()){ 
 			  visible = false;
 			  explotado = true;
-			  pJuego->newBaja(this);
-			  pJuego->newPuntos(this);
+			  if (dynamic_cast<PlayPG*>(pJuego->topEstado())) {
+				  dynamic_cast<PlayPG*>(pJuego->topEstado())->newBaja(this);
+			  }
+			  if (dynamic_cast<PlayPG*>(pJuego->topEstado())) {
+				  dynamic_cast<PlayPG*>(pJuego->topEstado())->newPuntos(this);
+			  }
 			 
 			  
 			  return true;
@@ -42,7 +46,9 @@ void GlobosPG::update() {
 			puntos += 5;
 			if (rect.h <= 0 || rect.w <= 0) {
 				visible = false;
-				pJuego->newBaja(this);
+				if (dynamic_cast<PlayPG*>(pJuego->topEstado())) {
+					dynamic_cast<PlayPG*>(pJuego->topEstado())->newBaja(this);
+				}
 				destruido = true;
 				explotado = true;
 			}
@@ -52,9 +58,9 @@ void GlobosPG::update() {
 		if (rand() % 100 < PVIS) visible = true; 
 		else {
 			visible = false;
-			//pJuego->newBaja(this);
+			
 		}
-	//return destruido;
+	
 }
 
 int GlobosPG::getPuntos() {

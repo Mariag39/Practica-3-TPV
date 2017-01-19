@@ -6,6 +6,7 @@
 #include "TexturaSDL.h"
 #include "GlobosPG.h"
 #include "Premio.h"
+#include "GameOver.h"
 #include "Mariposa.h"
 #include <iostream>
 #include "SDL_image.h"
@@ -15,16 +16,22 @@ class PlayPG :
 	public EstadoPG
 {
 public:
-	PlayPG();
+	PlayPG(JuegoPG* juego);
 	~PlayPG();
 	void newBaja(ObjetoJuego* po);
 	void newPuntos(ObjetoJuego* po);
 	void newPremio(ObjetoJuego* po);
-	virtual void draw() const;
-	virtual bool onClick();
-	virtual void update();
+	
+protected:
+	virtual void draw();
 	bool initObjetos();
-private:
+	int numGlobos;
+	int punts;
+	int x;
+	int y;
+	int premios;
+	int numMariposas;
+	vector<ObjetoJuego*> objetosvec;
 
 };
 

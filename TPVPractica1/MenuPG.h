@@ -4,24 +4,25 @@
 #include "EstadoPG.h"
 #include "Boton.h"
 #include "JuegoPG.h"
+#include "PlayPG.h"
 using namespace std;
 class MenuPG :
 	public EstadoPG
 {
 public:
 	MenuPG(JuegoPG* juego);
-	static void exit(JuegoPG* game);
-	static void play(JuegoPG* game);
+	static void exit(JuegoPG* game) {
+		game->setSalir();
+	}
+	static void play(JuegoPG* game) {
+		game->changeState(new PlayPG(game));
+	}
 	void initboton();
-	virtual void draw();
-	
-	
-	//boton exit y play
-	//funcion de tipo callback para cada funcion
+
 	~MenuPG();
 private:
 	int x, y;
-	JuegoPG* gueim;
+
 };
 #endif
 

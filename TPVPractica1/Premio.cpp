@@ -15,8 +15,10 @@ Premio::Premio(Textura_t text, int x, int y, JuegoPG* juego) : ObjetoPG(juego,te
 
 bool Premio::onClick() {
 	if (ObjetoPG::onClick()) {
-		pJuego->newPuntos(this);
-		pJuego->newBaja(this);
+		if (dynamic_cast<PlayPG*>(pJuego->topEstado())) {
+			dynamic_cast<PlayPG*>(pJuego->topEstado())->newPuntos(this);
+			dynamic_cast<PlayPG*>(pJuego->topEstado())->newBaja(this);
+		}
 		reinicio();
 		return true;
 	}
@@ -25,7 +27,9 @@ bool Premio::onClick() {
 			oport++;
 	}
 	else {
-		pJuego->newBaja(this);
+		if (dynamic_cast<PlayPG*>(pJuego->topEstado())) {
+			dynamic_cast<PlayPG*>(pJuego->topEstado())->newBaja(this);
+		}
 		//reinicio();
 	}
 	return false;

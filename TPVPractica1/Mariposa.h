@@ -3,7 +3,8 @@
 #define _H_Mariposa_H_
 #include "ObjetoPG.h"
 #include "SDL.h"
-#include "TexturaSDL.h" // pregunta pero yo creo que si hace falta, el draw lo necesiará,no?
+#include "TexturaSDL.h" 
+#include "PlayPG.h"
 
 
 class Mariposa : public ObjetoPG

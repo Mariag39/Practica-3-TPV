@@ -5,6 +5,7 @@
 #include "TexturaSDL.h"
 #include <vector>
 #include "ObjetoPG.h"
+#include "PlayPG.h"
 
 	
 using namespace std;

@@ -8,7 +8,7 @@ public:
 	}
 	virtual void draw() = 0;
 	virtual void update() = 0;
-	virtual bool onClick() = 0;
+	virtual bool OnClick() = 0;
 	
 	virtual ~EstadoJuego()
 	{

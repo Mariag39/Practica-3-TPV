@@ -8,6 +8,8 @@
 #include "EstadoJuego.h"
 #include "TexturaSDL.h"
 #include "ObjetoJuego.h"
+#include "MenuPG.h"
+#include "Pausa.h"
 using namespace std;
 
 static const int SCREEN_WIDTH = 640;   //Screen dimension
@@ -28,25 +30,22 @@ public:
 	};
 	void random(int& x, int& y);
 	void getMousePos(int& mpx, int& mpy) const;
-	void newBaja(ObjetoJuego* po); // Los objetos informarán al juego cuando causen baja  
-	void newPuntos(ObjetoJuego* po); // Los objetos informarán al juego cuando se obtengan puntos 
-	void newPremio(); // Los objetos informará al juego cuando se obtenga un premio 
 	void initMedia(); // carga las texturas en el vector de texturas (fuente y música)  
 	void freeMedia();
 	void changeState(EstadoJuego* newSt);
 	void pushState(EstadoJuego* newState);
 	void popState();
 	void setSalir();
-	
+	vector<TexturaSDL*> objetostext;
+	EstadoJuego* topEstado();
 	
 
 private:
-	EstadoJuego* topEstado();
+	
 	int x;
 	int y;
 	int premios;
 	int numMariposas;
-	bool initObjetos();
 	bool initSDL();
 	Textura_t texturas;
 	vector<string> nombarch;
@@ -60,7 +59,7 @@ private:
 	SDL_Window* pWindow;
 	SDL_Renderer* pRenderer;
 	SDL_Texture* pTexture;
-	vector<TexturaSDL*> objetostext;
+	
 	vector<ObjetoJuego*> objetosvec; //era GlobosPG
 	
 	

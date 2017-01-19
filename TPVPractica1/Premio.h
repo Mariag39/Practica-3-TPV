@@ -2,6 +2,7 @@
 
 #include "ObjetoPG.h"
 #include "SDL.h"
+#include "PlayPG.h"
 
 
 

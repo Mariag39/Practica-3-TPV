@@ -31,7 +31,9 @@ bool Mariposa::onClick() {
 		clicks++;
 		movimiento();
 		if (clicks == 3) {
-			pJuego->newPremio();
+			if (dynamic_cast<PlayPG*>(pJuego->topEstado())) {
+				dynamic_cast<PlayPG*>(pJuego->topEstado())->newPremio(this);
+			}
 			clicks = 0;
 		}
 

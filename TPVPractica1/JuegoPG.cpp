@@ -127,27 +127,7 @@ void JuegoPG::random(int& x, int& y) {
 	if (x > SCREEN_WIDTH - 100) x = SCREEN_WIDTH - 100;
 
 }
-bool JuegoPG::initObjetos(){
-	
-	int x;
-	int y;
-	for (int i = 0; i < numGlobos; i++) {
 
-		x = rand() % (SCREEN_HEIGHT - 5);
-		y = rand() % (SCREEN_WIDTH - 5);
-		objetosvec.push_back(new GlobosPG(TGlobo,x, y, this));
-	}
-	for (int i = 0; i < numMariposas; i++) {
-
-		x = rand() % (SCREEN_HEIGHT - 5);
-		y = rand() % (SCREEN_WIDTH - 5);
-		objetosvec.push_back(new Mariposa(TMariposa,x, y, this));
-	}
-	x = rand() % (SCREEN_HEIGHT - 5);
-	y = rand() % (SCREEN_WIDTH - 5);
-	objetosvec.push_back(new Premio(TPremio,x, y, this));
-	return true;
-  }
 
 void JuegoPG::freeMedia() {
 	for (unsigned int i = 0; i < objetosvec.size(); i++) {
@@ -172,30 +152,6 @@ void JuegoPG::onClick(){
 void JuegoPG::getMousePos(int& mpx, int& mpy) const{
 	mpx = x;
 	mpy = y;
-}
-void JuegoPG::newBaja(ObjetoJuego* po){
-	if (dynamic_cast<GlobosPG*>(po)){
-		numGlobos--;
-		
-	}
-	
-	else if (dynamic_cast<Premio*>(po)){
-		dynamic_cast<Premio*>(po)->visible = false;
-	}
-}
-void JuegoPG::newPuntos(ObjetoJuego* po) {
-	if (dynamic_cast<GlobosPG*>(po)) {
-		punts += dynamic_cast<GlobosPG*>(po)->getPuntos();
-	}
-	else if (dynamic_cast<Premio*>(po)) {
-		punts += dynamic_cast<Premio*>(po)->getPuntos();
-	}
-
-}
-void JuegoPG::newPremio(){ 
-
-		dynamic_cast<Premio*>(objetosvec[objetosvec.size() - 1])->visible = true;
-	
 }
 
 void JuegoPG::update() {
@@ -233,13 +189,14 @@ EstadoJuego* JuegoPG::topEstado() {
 	return estados.top();
 }
 void JuegoPG::run() {
+	pushState(new MenuPG(this));
+	
 	if (!error) {
 		Uint32 MSxUpdate = 500;
 		cout << "PLAY\n";
 		Uint32 lastUpdate = SDL_GetTicks();
 		Mensaje("PLAY","Ready?");
 		initMedia();
-		initObjetos();
 		render();
 		handle_event();
 		while (!exit && !gameOver) {
@@ -251,13 +208,6 @@ void JuegoPG::run() {
 			handle_event();
 		}
 
-		if (exit || gameOver) {
-			string puntuacion = to_string(punts);
-			Mensaje("Game Over", "Puntuacion: " +puntuacion);
-			closeSDL();
-			cout << "\nHas obtenido " << punts << " puntos\n";
-		}
-		/*music->close();*/
 		SDL_Delay(1000);
 		
 		cin.get();
@@ -265,6 +215,7 @@ void JuegoPG::run() {
 }
 
 void JuegoPG::handle_event() {
+	
 	SDL_Event e;
 	while (SDL_PollEvent(&e) && !exit) {
 		if (e.type == SDL_QUIT) {
@@ -276,6 +227,14 @@ void JuegoPG::handle_event() {
 			x = e.button.x;
 			y = e.button.y;
 			onClick();
+		}
+	}
+	else if (e.type == SDL_KEYUP) {
+		if (e.key.keysym.sym == SDLK_p) {
+			//si se pulsa pausa
+		}
+		else if (e.key.keysym.sym == SDLK_ESCAPE && dynamic_cast<PlayPG*>(topEstado())) {
+			pushState(new Pausa(this));
 		}
 	}
 }
