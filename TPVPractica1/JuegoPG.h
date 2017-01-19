@@ -1,14 +1,18 @@
 #pragma once
 #include "SDL.h"
 #include <vector>
+#include <stack> 
 #include "SDL_image.h"
 #include "Sound.h"
+#include "Error.h"
+#include "EstadoJuego.h"
 #include "TexturaSDL.h"
 #include "ObjetoJuego.h"
 using namespace std;
 
-
-enum Textura_t { TFondo, TGlobo, TPremio, TMariposa };
+static const int SCREEN_WIDTH = 640;   //Screen dimension
+static const int SCREEN_HEIGHT = 480;  //Screen dimension
+enum Textura_t { TFondo, TGlobo, TPremio, TMariposa, TPlay, TMenu, TExit, TScore, TResume };
 class JuegoPG
 {
 	
@@ -29,9 +33,15 @@ public:
 	void newPremio(); // Los objetos informará al juego cuando se obtenga un premio 
 	void initMedia(); // carga las texturas en el vector de texturas (fuente y música)  
 	void freeMedia();
+	void changeState(EstadoJuego* newSt);
+	void pushState(EstadoJuego* newState);
+	void popState();
+	void setSalir();
+	
 	
 
 private:
+	EstadoJuego* topEstado();
 	int x;
 	int y;
 	int premios;
@@ -45,14 +55,14 @@ private:
 	void render() ;
 	void onClick();
 	void update();
+	stack<EstadoJuego*> estados;
 	void handle_event();
 	SDL_Window* pWindow;
 	SDL_Renderer* pRenderer;
 	SDL_Texture* pTexture;
 	vector<TexturaSDL*> objetostext;
 	vector<ObjetoJuego*> objetosvec; //era GlobosPG
-	const int SCREEN_WIDTH = 640;   //Screen dimension
-	const int SCREEN_HEIGHT = 480;  //Screen dimension
+	
 	
 	
 	bool error;

@@ -36,6 +36,12 @@ JuegoPG::JuegoPG()
 	nombarch.emplace_back("..\\bmps\\yellow.png");
 	nombarch.emplace_back("..\\bmps\\premio.png");
 	nombarch.emplace_back("..\\bmps\\mariposa.png");
+	nombarch.emplace_back("..\\bmps\\play_button.png");
+	nombarch.emplace_back("..\\bmps\\menu_button.png");
+	nombarch.emplace_back("..\\bmps\\exit_button.png");
+	nombarch.emplace_back("..\\bmps\\score_button.png");
+	nombarch.emplace_back("..\\bmps\\resume_button.png");
+	
 	
 	
 	
@@ -52,7 +58,8 @@ bool JuegoPG::initSDL() {
 
 						 //Initialize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-		cout << "SDL could not initialize! \nSDL_Error: " << SDL_GetError() << '\n';
+		throw Error("SDL could not initialize!");
+		//cout << "SDL could not initialize! \nSDL_Error: " << SDL_GetError() << '\n';
 		success = false;
 
 	}
@@ -60,7 +67,8 @@ bool JuegoPG::initSDL() {
 		//Create window: SDL_CreateWindow("SDL Hello World", posX, posY, width, height, SDL_WINDOW_SHOWN);
 		pWindow = SDL_CreateWindow("SDL Práctica 1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (pWindow == nullptr) {
-			cout << "Window could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
+			throw Error("Window could not be created!");
+			//cout << "Window could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
 			success = false;
 		}
 		else {
@@ -68,7 +76,8 @@ bool JuegoPG::initSDL() {
 			pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED);
 			//SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255); //Set background color to black 
 			if (pRenderer == nullptr) {
-				cout << "Renderer could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
+				throw Error("Renderer could not be created!");
+				//cout << "Renderer could not be created! \nSDL_Error: " << SDL_GetError() << '\n';
 				success = false;
 			}
 		}
@@ -103,7 +112,7 @@ void JuegoPG::render()  {
 }
 void JuegoPG::initMedia() {
   
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 9; i++) {
 		objetostext.push_back(new TexturaSDL());
 		objetostext[i]->load(pRenderer, nombarch[i]);
 	}
@@ -201,6 +210,27 @@ void JuegoPG::update() {
 void JuegoPG::onExit() {
 	exit = true;
 	cout << "EXIT ";
+}
+void JuegoPG::setSalir() {
+	popState();
+	exit = true;
+}
+
+void JuegoPG::pushState(EstadoJuego* newState) {
+	estados.push(newState);
+}
+void JuegoPG::changeState(EstadoJuego* newSt) {
+	popState();
+	pushState(newSt);
+}
+
+void JuegoPG::popState() {
+	delete topEstado();
+	estados.pop();
+}
+
+EstadoJuego* JuegoPG::topEstado() {
+	return estados.top();
 }
 void JuegoPG::run() {
 	if (!error) {
